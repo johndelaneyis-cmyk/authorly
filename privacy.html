@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy Policy - Authorly</title>
+<meta name="description" content="How Authorly handles data when you use the comp title finder.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,30..100&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--paper:#f6efe1;--paper-2:#fbf6ea;--ink:#1a1a1a;--ink-2:#2a2a2a;--ink-mute:#5a4a3a;--accent:#a3322a;--rule:#d8cdb8;--rule-soft:#f3ede0;--shadow:rgba(40,30,20,.08)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.65}
+.container{max-width:680px;margin:0 auto;padding:0 28px}
+.site-header{padding:36px 0 0}
+.site-header-inner{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:18px}
+.logo{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30;font-size:30px;font-weight:500;color:var(--ink);text-decoration:none;letter-spacing:-.5px}
+.logo .accent{color:var(--accent);font-style:italic}
+.nav a{color:var(--ink-mute);text-decoration:none;margin-left:22px;font-size:15px}
+.nav a:hover{color:var(--ink)}
+main{padding:48px 0 64px}
+h1{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30;font-size:44px;font-weight:500;line-height:1.1;margin:0 0 8px;letter-spacing:-.5px}
+.eyebrow{color:var(--accent);font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px}
+.lastmod{color:var(--ink-mute);font-size:14px;margin:0 0 36px}
+h2{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30;font-size:24px;font-weight:500;line-height:1.2;margin:38px 0 12px}
+p{margin:0 0 16px}
+ul{margin:0 0 16px;padding-left:22px}
+li{margin-bottom:8px}
+a{color:var(--ink)}
+a:hover{color:var(--accent)}
+strong{font-weight:600}
+.site-footer{border-top:1px solid var(--rule);padding:24px 0 36px;margin-top:48px;color:var(--ink-mute);font-size:14px;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
+.site-footer a{color:var(--ink-mute);text-decoration:none}
+.site-footer a:hover{color:var(--ink)}
+@media (max-width:520px){h1{font-size:34px}h2{font-size:20px}.container{padding:0 20px}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="site-header-inner">
+      <a href="/" class="logo">Author<span class="accent">ly</span></a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </nav>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="container">    <div class="eyebrow">Authorly</div>
+    <h1>Privacy policy</h1>
+    <p class="lastmod">Last updated: May 4, 2026</p>
+
+    <p>Authorly is a free tool for indie authors. We collect as little data as possible. This page explains exactly what we do and don't collect, in plain English.</p>
+
+    <h2>What we collect when you use the comp title finder</h2>
+    <ul>
+      <li>The book description you paste into the form</li>
+      <li>Your selected genre (if any)</li>
+      <li>Your IP address (for rate limiting only)</li>
+    </ul>
+
+    <h2>What we collect when you just visit the site</h2>
+    <p>Standard HTTP server logs (IP address, browser type, page visited, timestamp). These are kept by Cloudflare, our hosting provider, in line with their standard logging practices. We do not run separate analytics on top of this.</p>
+
+    <p><strong>What we don't collect:</strong> We do not use cookies. We do not run advertising trackers. We have no user accounts. We do not fingerprint your browser. We do not sell your data.</p>
+
+    <h2>What happens to your synopsis</h2>
+    <p>Your book description and selected genre are sent to <a href="https://www.anthropic.com/" target="_blank" rel="noopener noreferrer">Anthropic</a> (the company that makes the Claude AI we use) so it can generate comp titles. Anthropic processes this data under <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener noreferrer">their privacy policy</a>. As of this writing, Anthropic does not train their models on API data by default, and retains prompts for up to 30 days for abuse monitoring before deletion.</p>
+
+    <p>We do not store your synopsis on our servers after the request completes. It exists in memory only long enough to be passed to Anthropic and the response returned to you.</p>
+
+    <h2>What happens to your IP address</h2>
+    <p>Your IP is used to enforce the 5-searches-per-day free limit. It is stored in Cloudflare KV (a fast key-value store) tied to today's date, and is automatically deleted after 48 hours. We never see or use your IP for any other purpose.</p>
+
+    <h2>Third parties we rely on</h2>
+    <ul>
+      <li><strong>Cloudflare</strong> - hosting, CDN, DDoS protection, rate-limiting storage. Standard server logs apply.</li>
+      <li><strong>Anthropic</strong> - the AI that generates the comp suggestions. Receives your synopsis.</li>
+      <li><strong>Google Fonts</strong> - serves the Fraunces and Inter typefaces this site uses. Google may log requests for the font files; we have no control over that and don't receive any data from it.</li>
+    </ul>
+
+    <h2>Your rights (GDPR, UK GDPR, CCPA)</h2>
+    <p>If you're in the EU, EEA, UK, or California, you have rights including the right to access, correct, delete, or port your data, and the right to object to processing. Since we don't store your book description and your IP is auto-deleted after 48 hours, in practice there's very little to export or delete. If you want to be sure nothing is retained, or if you have any other privacy question, email <a href="mailto:Johndelaneyis@gmail.com">Johndelaneyis@gmail.com</a>.</p>
+
+    <h2>Children</h2>
+    <p>Authorly is intended for adult authors. We don't knowingly collect data from anyone under 16.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>We may update this policy as the service grows (for example, when we add a paid tier with accounts). The "last updated" date at the top will reflect any changes. Continuing to use the service after changes means you accept the updated policy.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about privacy: <a href="mailto:Johndelaneyis@gmail.com">Johndelaneyis@gmail.com</a></p>  </div>
+</main>
+<footer class="site-footer">
+  <div class="container" style="display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;width:100%">
+    <span>Authorly - free tools for indie authors</span>
+    <span><a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a href="mailto:Johndelaneyis@gmail.com">Contact</a></span>
+  </div>
+</footer>
+</body>
+</html>
