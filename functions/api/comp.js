@@ -31,10 +31,11 @@ const SYSTEM_PROMPT = [
 ].join("\n");
 
 const MIN_DESC_LEN = 30;
-const MAX_DESC_LEN = 4000;
+const MAX_DESC_LEN = 2000;
 const MAX_GENRE_LEN = 60;
 const PER_IP_DAILY_LIMIT = 5;
 const GLOBAL_DAILY_LIMIT = 2000;
+const DEFAULT_MODEL = "claude-sonnet-4-5";
 
 export async function onRequestPost({ request, env }) {
   // Parse JSON
@@ -52,7 +53,7 @@ export async function onRequestPost({ request, env }) {
     return jsonResponse({ error: "Please paste at least a paragraph (30+ characters) describing your book." }, 400);
   }
   if (description.length > MAX_DESC_LEN) {
-    return jsonResponse({ error: "Description too long (max 4000 characters)." }, 400);
+    return jsonResponse({ error: "Description too long (max " + MAX_DESC_LEN + " characters)." }, 400);
   }
 
   // Configuration check
@@ -98,7 +99,7 @@ export async function onRequestPost({ request, env }) {
         "anthropic-version": "2023-06-01"
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-5",
+        model: env.ANTHROPIC_MODEL || DEFAULT_MODEL,
         max_tokens: 1500,
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: userMsg }]
@@ -139,13 +140,9 @@ export async function onRequestPost({ request, env }) {
   });
 }
 
-// Reject non-POST methods cleanly
-export async function onRequest({ request }) {
-  if (request.method !== "POST") {
-    return jsonResponse({ error: "Method not allowed. Use POST." }, 405);
-  }
-  // Should be handled by onRequestPost, but if we get here something's odd
-  return jsonResponse({ error: "Unexpected routing." }, 500);
+// Cloudflare Pages routes POST -> onRequestPost; everything else hits onRequest.
+export async function onRequest() {
+  return jsonResponse({ error: "Method not allowed. Use POST." }, 405);
 }
 
 function jsonResponse(data, status) {
