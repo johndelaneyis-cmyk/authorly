@@ -6,6 +6,21 @@
 <title>Authorly — Free Tools for Indie Authors</title>
 <meta name="description" content="Free tools for indie authors. Find real comparable books, write better blurbs, research KDP keywords. Built for self-publishers — no manuscript upload required.">
 <meta name="theme-color" content="#faf6f0">
+<link rel="canonical" href="https://authorly.tools/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://authorly.tools/">
+<meta property="og:title" content="Authorly — Free Tools for Indie Authors">
+<meta property="og:description" content="Free tools for indie authors. Find real comparable books, write better blurbs, research KDP keywords. No manuscript upload required.">
+<meta property="og:image" content="https://authorly.tools/og.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:site_name" content="Authorly">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Authorly — Free Tools for Indie Authors">
+<meta name="twitter:description" content="Find real comp titles for your book in seconds. Free, no signup, no manuscript upload.">
+<meta name="twitter:image" content="https://authorly.tools/og.svg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -141,16 +156,16 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
   <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister's mysterious death. Set against the backdrop of a coastal community hiding decades of secrets, the novel weaves dual timelines of grief and discovery — perfect for readers who love atmospheric, character-driven mysteries..." maxlength="2000"></textarea>
   <div class="char-count"><span id="cc">0</span> / 2000</div>
 
-  <label class="input-label" style="margin-top:20px">Genre <span class="opt">(optional, helps accuracy)</span></label>
-  <div class="genre-row" id="genre-row">
-    <button class="genre-chip" data-g="">Any</button>
-    <button class="genre-chip" data-g="romance">Romance</button>
-    <button class="genre-chip" data-g="thriller">Thriller</button>
-    <button class="genre-chip" data-g="mystery">Mystery</button>
-    <button class="genre-chip" data-g="fantasy">Fantasy</button>
-    <button class="genre-chip" data-g="sci-fi">Sci-Fi</button>
-    <button class="genre-chip" data-g="literary fiction">Literary</button>
-    <button class="genre-chip" data-g="memoir/non-fiction">Memoir / NF</button>
+  <div class="input-label" id="genre-label" style="margin-top:20px">Genre <span class="opt">(optional, helps accuracy)</span></div>
+  <div class="genre-row" id="genre-row" role="group" aria-labelledby="genre-label">
+    <button type="button" class="genre-chip" data-g="" aria-pressed="true">Any</button>
+    <button type="button" class="genre-chip" data-g="romance" aria-pressed="false">Romance</button>
+    <button type="button" class="genre-chip" data-g="thriller" aria-pressed="false">Thriller</button>
+    <button type="button" class="genre-chip" data-g="mystery" aria-pressed="false">Mystery</button>
+    <button type="button" class="genre-chip" data-g="fantasy" aria-pressed="false">Fantasy</button>
+    <button type="button" class="genre-chip" data-g="sci-fi" aria-pressed="false">Sci-Fi</button>
+    <button type="button" class="genre-chip" data-g="literary fiction" aria-pressed="false">Literary</button>
+    <button type="button" class="genre-chip" data-g="memoir/non-fiction" aria-pressed="false">Memoir / NF</button>
   </div>
 
   <button class="btn" id="generate">Find comp titles <span class="btn-arrow">→</span></button>
@@ -201,8 +216,12 @@ let selectedGenre="";
 document.querySelectorAll(".genre-chip").forEach(chip=>{
   chip.addEventListener("click",e=>{
     e.preventDefault();
-    document.querySelectorAll(".genre-chip").forEach(c=>c.classList.remove("active"));
+    document.querySelectorAll(".genre-chip").forEach(c=>{
+      c.classList.remove("active");
+      c.setAttribute("aria-pressed","false");
+    });
     chip.classList.add("active");
+    chip.setAttribute("aria-pressed","true");
     selectedGenre=chip.dataset.g;
   });
 });
