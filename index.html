@@ -78,6 +78,9 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .output-body ol{padding-left:0;counter-reset:comp;list-style:none;margin:0 0 18px}
 .output-body ol li{counter-increment:comp;margin-bottom:18px;padding-left:36px;position:relative}
 .output-body ol li::before{content:counter(comp);position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;font-size:20px;color:var(--accent);font-weight:500;line-height:1.7}
+.output-body ul{padding-left:0;list-style:none;margin:0 0 18px}
+.output-body ul li{margin-bottom:12px;padding-left:20px;position:relative}
+.output-body ul li::before{content:"§";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.7}
 .output-body em{font-style:italic;color:var(--ink-2)}
 .output-body strong{font-weight:600;color:var(--ink)}
 .copy-btn{display:inline-block;margin-top:8px;padding:5px 11px;background:transparent;border:1px solid var(--rule);border-radius:3px;font-family:"Fraunces",serif;font-size:12px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
@@ -135,7 +138,7 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
   <p class="tool-desc">Paste your book description below. Get five real, published, commercially successful comp titles — with reasons why each fits, plus ready-to-paste copy for your Amazon book description.</p>
 
   <label class="input-label" for="book-desc">Your book description</label>
-  <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister''s mysterious death. Set against the backdrop of a coastal community hiding decades of secrets, the novel weaves dual timelines of grief and discovery — perfect for readers who love atmospheric, character-driven mysteries..." maxlength="2000"></textarea>
+  <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister's mysterious death. Set against the backdrop of a coastal community hiding decades of secrets, the novel weaves dual timelines of grief and discovery — perfect for readers who love atmospheric, character-driven mysteries..." maxlength="2000"></textarea>
   <div class="char-count"><span id="cc">0</span> / 2000</div>
 
   <label class="input-label" style="margin-top:20px">Genre <span class="opt">(optional, helps accuracy)</span></label>
@@ -161,7 +164,7 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 <section class="section" id="more">
   <div class="eyebrow">More tools</div>
   <h2 class="section-title">Coming soon.</h2>
-  <p class="section-lede">Authorly is built one carefully-tuned tool at a time. Here''s what''s next:</p>
+  <p class="section-lede">Authorly is built one carefully-tuned tool at a time. Here's what's next:</p>
 
   <div class="tool-list">
     <div class="tool-list-item"><h3>Amazon book description</h3><p>Paste your plot, get a structured blurb — hook, setup, stakes, cliffhanger.</p><div class="status">In progress</div></div>
@@ -177,7 +180,7 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
   <div class="eyebrow">About</div>
   <h2 class="section-title">Built for indie authors.</h2>
   <p style="font-size:17px;line-height:1.7;color:var(--ink);margin:0 0 16px">Authorly is a small, growing collection of free tools for self-published authors. No accounts. No upload-your-manuscript. No paywalls on the basics. Just tools that work.</p>
-  <p style="font-size:17px;line-height:1.7;color:var(--ink-mute);margin:0">Powered by Anthropic''s Claude — the AI we found gives the highest-quality output for craft work like this. Powered by Claude AI. Five free searches per day per visitor - more than enough for most authors. We pay the AI bill so you don't have to. Pro tier with unlimited searches coming soon.</p>
+  <p style="font-size:17px;line-height:1.7;color:var(--ink-mute);margin:0">Powered by Anthropic's Claude — the AI we found gives the highest-quality output for craft work like this. Five free searches per day per visitor — more than enough for most authors. We pay the AI bill so you don't have to. Pro tier with unlimited searches coming soon.</p>
 </section>
 
 </main>
@@ -268,47 +271,52 @@ function renderMarkdown(md){
   html=html.replace(/\*([^*\n]+?)\*/g,"<em>$1</em>");
   const lines=html.split("\n");
   const result=[];
-  let inList=false;
+  let listType=null; // "ol" | "ul" | null
+  const closeList=()=>{ if(listType){ result.push("</"+listType+">"); listType=null; } };
   for(const line of lines){
-    const m=line.match(/^\s*\d+\.\s+(.+)$/);
     const t=line.trim();
-    if(m){
-      if(!inList){result.push("<ol>");inList=true}
-      result.push("<li>"+m[1]+"</li>");
-    }else if(!t){
-      continue;
+    if(!t){ continue; }
+    const ol=line.match(/^\s*\d+\.\s+(.+)$/);
+    const ul=line.match(/^\s*[-*]\s+(.+)$/);
+    if(ol){
+      if(listType!=="ol"){ closeList(); result.push("<ol>"); listType="ol"; }
+      result.push("<li>"+ol[1]+"</li>");
+    }else if(ul){
+      if(listType!=="ul"){ closeList(); result.push("<ul>"); listType="ul"; }
+      result.push("<li>"+ul[1]+"</li>");
     }else{
-      if(inList){result.push("</ol>");inList=false}
-      if(t.startsWith("<h")||t.startsWith("<ol")||t.startsWith("</")){
+      closeList();
+      if(t.startsWith("<h")||t.startsWith("</")){
         result.push(t);
       }else{
         result.push("<p>"+t+"</p>");
       }
     }
   }
-  if(inList)result.push("</ol>");
+  closeList();
   return result.join("\n");
 }
 
 function attachCopyButtons(){
-  const paragraphs=outBody.querySelectorAll("p");
-  paragraphs.forEach(p=>{
-    const txt=p.innerHTML;
-    if(/^<strong>(Short|Medium|Detailed):<\/strong>/.test(txt)){
-      const b=document.createElement("button");
-      b.className="copy-btn";
-      b.textContent="Copy";
-      b.onclick=()=>{
-        const plain=p.textContent.replace(/^(Short|Medium|Detailed):\s*/,"").replace(/\s*Copy\s*$/,"");
-        navigator.clipboard.writeText(plain).then(()=>{
-          b.textContent="Copied ✓";
-          b.classList.add("copied");
-          setTimeout(()=>{b.textContent="Copy";b.classList.remove("copied")},1800);
-        });
-      };
-      p.appendChild(document.createTextNode(" "));
-      p.appendChild(b);
-    }
+  // The "Use these in" section contains bullets with quoted paste-able fragments.
+  // Add a Copy button next to each quoted fragment.
+  outBody.querySelectorAll("ul li").forEach(li=>{
+    const m=li.textContent.match(/"([^"]+)"/);
+    if(!m) return;
+    const fragment=m[1];
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="copy-btn";
+    b.textContent="Copy";
+    b.onclick=()=>{
+      navigator.clipboard.writeText(fragment).then(()=>{
+        b.textContent="Copied ✓";
+        b.classList.add("copied");
+        setTimeout(()=>{b.textContent="Copy";b.classList.remove("copied")},1800);
+      });
+    };
+    li.appendChild(document.createTextNode(" "));
+    li.appendChild(b);
   });
 }
 </script>

@@ -73,7 +73,7 @@ export async function onRequestPost({ request, env }) {
   const ipCount = parseInt(ipCountStr || "0", 10);
   if (ipCount >= PER_IP_DAILY_LIMIT) {
     return jsonResponse({
-      error: "Daily free limit reached (" + PER_IP_DAILY_LIMIT + " searches per visitor). Comes back tomorrow.",
+      error: "Daily free limit reached (" + PER_IP_DAILY_LIMIT + " searches per visitor). Come back tomorrow.",
       remaining: 0
     }, 429);
   }
